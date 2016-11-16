@@ -7,7 +7,7 @@ app.controller("TodoCtrl", function($scope, ItemFactory) {
 	$scope.items = [];
 
 	ItemFactory.getItemList().then(function(fbItems) {
-		console.log("items from controller", fbItems);
+		$scope.items = fbItems;
 	});
 
 	$scope.allItems=function(){
