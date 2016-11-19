@@ -50,6 +50,36 @@ app.factory("ItemFactory", function($q, $http, FIREBASE_CONFIG) {
 		})
 	};
 
-	return {getItemList:getItemList, postNewItem:postNewItem, deleteItem:deleteItem};
+	var getSingleItemForEdit = function(itemId){
+		return $q((resolve, reject)=>{
+			$http.get(`${FIREBASE_CONFIG.databaseURL}/items/${itemId}.json`)
+			.success(function(getResponse){
+				resolve(getResponse);
+			})
+			.error(function(getError){
+				reject(getError)
+			})
+		})
+	};
+
+	var editItem = function(editItem){
+		return $q((resolve, reject)=>{
+			$http.put(`${FIREBASE_CONFIG.databaseURL}/items/${editItem.id}.json`, 
+				JSON.stringify({
+				assignedTo: editItem.assignedTo,
+				isCompleted: editItem.isCompleted,
+				task: editItem.task
+			})
+			)
+			.success(function(putResponse){
+				resolve(putResponse)
+			})
+			.error(function(putError){
+				reject(putError);
+			});
+		});
+	};
+
+	return {getItemList:getItemList, postNewItem:postNewItem, deleteItem:deleteItem, getSingleItemForEdit:getSingleItemForEdit, editItem:editItem};
 
 });
