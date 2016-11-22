@@ -1,9 +1,21 @@
 "use strict";
 
-app.controller("AuthCtrl", function($scope, AuthFactory){
+app.controller("AuthCtrl", function($scope, $rootScope, $location, AuthFactory, UserFactory){
 	$scope.loginContainer = true;
 	$scope.registerContainer = false;
 
+
+	let logMeIn = function(loginStuff){
+		AuthFactory.authenticate(loginStuff).then(function(didLogin){
+			console.log("login working", didLogin);
+			return UserFactory.getUser(didLogin.uid);
+		}).then(function(userCreds){
+			$rootScope.user = userCreds;
+			$scope.login = {};
+			$scope.register = {};
+			$location.url("/items/list");
+		});
+	}
 	$scope.setLoginContainer = function(){
 		$scope.loginContainer = true;
 		$scope.registerContainer = false;
@@ -17,12 +29,16 @@ app.controller("AuthCtrl", function($scope, AuthFactory){
 
 	$scope.registerUser = function(registerNewUser){
 		AuthFactory.registerWithEmail(registerNewUser).then(function(didRegister){
-			console.log("user user");
+			registerNewUser.uid = didRegister.uid;
+			console.log("user user", didRegister);
+			return UserFactory.addUser(registerNewUser);
+		}).then(function(registerComplete){
+			logMeIn(registerNewUser);
 		})
-	}
+	};
 
-	$scope.loginUser = function() {
-	
+	$scope.loginUser = function(loginNewUser) {
+		logMeIn(loginNewUser);
 	};
 
 
