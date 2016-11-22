@@ -22,5 +22,9 @@ app.config(function($routeProvider){
 		templateUrl: "partials/item-new.html",
 		controller: "UpdateCtrl"
 	})
+	.when("/auth", {
+		templateUrl: "partials/auth.html",
+		controller: "AuthCtrl"
+	})
 	.otherwise("/items/list")
 })
