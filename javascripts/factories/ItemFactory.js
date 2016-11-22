@@ -24,11 +24,11 @@ app.factory("ItemFactory", function($q, $http, FIREBASE_CONFIG) {
 		return $q((resolve, reject)=>{
 			$http.post(`${FIREBASE_CONFIG.databaseURL}/items.json`, 
 				JSON.stringify({
-				assignedTo: newItem.assignedTo,
-				isCompleted: newItem.isCompleted,
-				task: newItem.task
-			})
-			)
+					assignedTo: newItem.assignedTo,
+					isCompleted: newItem.isCompleted,
+					task: newItem.task
+				})
+				)
 			.success(function(postResponse){
 				resolve(postResponse)
 			})
@@ -63,14 +63,15 @@ app.factory("ItemFactory", function($q, $http, FIREBASE_CONFIG) {
 	};
 
 	var editItem = function(editItem){
+		console.log("factory resolve", editItem);
 		return $q((resolve, reject)=>{
 			$http.put(`${FIREBASE_CONFIG.databaseURL}/items/${editItem.id}.json`, 
 				JSON.stringify({
-				assignedTo: editItem.assignedTo,
-				isCompleted: editItem.isCompleted,
-				task: editItem.task
-			})
-			)
+					assignedTo: editItem.assignedTo,
+					isCompleted: editItem.isCompleted,
+					task: editItem.task
+				})
+				)
 			.success(function(putResponse){
 				resolve(putResponse)
 			})
