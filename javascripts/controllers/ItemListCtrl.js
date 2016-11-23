@@ -1,14 +1,14 @@
 "use strict";
 
-app.controller("ItemListCtrl", function($scope, ItemFactory){
+app.controller("ItemListCtrl", function($scope, $rootScope, ItemFactory){
 
 	$scope.items = [];
 
 	let getItems = function(){
-		ItemFactory.getItemList().then(function(fbItems) {
+		ItemFactory.getItemList($rootScope.user.uid).then(function(fbItems) {
 			$scope.items = fbItems;
 		});
-	}
+	};
 
 	getItems();
 
@@ -21,7 +21,7 @@ app.controller("ItemListCtrl", function($scope, ItemFactory){
 
 	$scope.inputChange = function(thingy){
 		ItemFactory.editItem(thingy).then(function(response){
-			console.log("ctrler inputChange", response)
-		})
+			console.log("ctrler inputChange", response);
+		});
 	};
 });

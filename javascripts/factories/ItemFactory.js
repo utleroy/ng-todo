@@ -2,15 +2,15 @@
 
 app.factory("ItemFactory", function($q, $http, FIREBASE_CONFIG) {
 	
-	var getItemList = function(){
+	var getItemList = function(userId){
 		return $q((resolve, reject)=>{
-			$http.get(`${FIREBASE_CONFIG.databaseURL}/items.json`)
+			$http.get(`${FIREBASE_CONFIG.databaseURL}/items.json?orderBy="uid"&equalTo="${userId}"`)
 			.success(function(response){
 				let items = [];
 				Object.keys(response).forEach(function(key){
 					response[key].id = key;
 					items.push(response[key]);
-				})
+				});
 				resolve(items);
 			})
 			.error(function(errorResponse){
@@ -26,11 +26,12 @@ app.factory("ItemFactory", function($q, $http, FIREBASE_CONFIG) {
 				JSON.stringify({
 					assignedTo: newItem.assignedTo,
 					isCompleted: newItem.isCompleted,
-					task: newItem.task
+					task: newItem.task,
+					uid: newItem.uid
 				})
 				)
 			.success(function(postResponse){
-				resolve(postResponse)
+				resolve(postResponse);
 			})
 			.error(function(postError){
 				reject(postError);
@@ -45,9 +46,9 @@ app.factory("ItemFactory", function($q, $http, FIREBASE_CONFIG) {
 				resolve(deleteResponse);
 			})
 			.error(function(deleteError){
-				reject(deleteError)
-			})
-		})
+				reject(deleteError);
+			});
+		});
 	};
 
 	var getSingleItemForEdit = function(itemId){
@@ -57,9 +58,9 @@ app.factory("ItemFactory", function($q, $http, FIREBASE_CONFIG) {
 				resolve(getResponse);
 			})
 			.error(function(getError){
-				reject(getError)
-			})
-		})
+				reject(getError);
+			});
+		});
 	};
 
 	var editItem = function(editItem){
@@ -69,11 +70,12 @@ app.factory("ItemFactory", function($q, $http, FIREBASE_CONFIG) {
 				JSON.stringify({
 					assignedTo: editItem.assignedTo,
 					isCompleted: editItem.isCompleted,
-					task: editItem.task
+					task: editItem.task,
+					uid: editItem.uid
 				})
 				)
 			.success(function(putResponse){
-				resolve(putResponse)
+				resolve(putResponse);
 			})
 			.error(function(putError){
 				reject(putError);
