@@ -15,7 +15,7 @@ app.controller("AuthCtrl", function($scope, $rootScope, $location, AuthFactory, 
 			$scope.register = {};
 			$location.url("/items/list");
 		});
-	}
+	};
 	$scope.setLoginContainer = function(){
 		$scope.loginContainer = true;
 		$scope.registerContainer = false;
@@ -34,7 +34,7 @@ app.controller("AuthCtrl", function($scope, $rootScope, $location, AuthFactory, 
 			return UserFactory.addUser(registerNewUser);
 		}).then(function(registerComplete){
 			logMeIn(registerNewUser);
-		})
+		});
 	};
 
 	$scope.loginUser = function(loginNewUser) {

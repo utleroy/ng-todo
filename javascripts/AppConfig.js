@@ -26,5 +26,5 @@ app.config(function($routeProvider){
 		templateUrl: "partials/auth.html",
 		controller: "AuthCtrl"
 	})
-	.otherwise("/items/list")
-})
+	.otherwise("/items/list");
+});

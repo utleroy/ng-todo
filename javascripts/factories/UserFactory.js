@@ -13,7 +13,7 @@ app.factory('UserFactory', function($q, $http, FIREBASE_CONFIG){
 				resolve(storeUserSuccess);
 			})
 			.error(function(storeUserError){
-				reject(storeUserError)
+				reject(storeUserError);
 			});
 		});
 	};
@@ -24,15 +24,15 @@ app.factory('UserFactory', function($q, $http, FIREBASE_CONFIG){
 			.success(function(userObject){
 				let users = [];
 				Object.keys(userObject).forEach(function(key){
-					users.push(userObject[key])
+					users.push(userObject[key]);
 				});
 				resolve(users[0]);
 			})
 			.error(function(error){
-				reject(error)
+				reject(error);
 			});
 		});
 	};
 
-	return{addUser:addUser, getUser:getUser}
+	return{addUser:addUser, getUser:getUser};
 });
